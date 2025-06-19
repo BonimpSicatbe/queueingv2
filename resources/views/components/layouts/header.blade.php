@@ -6,7 +6,16 @@
         <div class="text-lg uppercase grow h-full w-full">{{ $headerSubtitle }}</div>
     </div>
     <div class="flex flex-col justify-evenly text-right">
-        <div class="text-2xl font-bold uppercase grow h-full w-full">{{ $date }}</div>
+        @if (Auth::check())
+            <form action="{{ route('logout') }}" method="post">
+                @csrf
+                <button type="submit"
+                    class="text-2xl font-bold uppercase grow h-full w-full">{{ $date }}</button type="submit">
+            </form>
+        @else
+            <a href="{{ route('login') }}"
+                class="text-2xl font-bold uppercase grow h-full w-full">{{ $date }}</a>
+        @endif
         <div id="current-time" class="text-lg uppercase grow h-full w-full">{{ $time }}</div>
     </div>
 </div>

@@ -18,7 +18,7 @@
         <script src="https://kit.fontawesome.com/a10f8182c0.js" crossorigin="anonymous"></script>
     </head>
 
-    <body wire:poll.500ms>
+    <body>
         <div class="flex flex-col gap-4 h-screen w-screen p-6 bg-blue-100">
             <x-layouts.header></x-layouts.header>
             {{ $slot }}

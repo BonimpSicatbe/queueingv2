@@ -3,36 +3,31 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-// admin
-Route::prefix('admin')
-    ->group(function () {})->middleware(['auth', 'role:admin']);
-
 // operators / managers
 Route::prefix('operator')
+    ->middleware(['auth', 'role:operator|admin'])
     ->group(function () {
         Route::get('/front-desk', function () {
             return view('operator.front-desk');
         })->name('operator.front-desk');
-    })->middleware(['auth']);
 
-// officers
-Route::prefix('officer')
-    ->group(function () {})->middleware(['auth']);
+        Route::get('/sena', function () {
+            return view('operator.sena');
+        })->name('operator.sena');
+    });
 
 // displays
-Route::prefix('display')->group(function () {
-    Route::get('/front-desk', function () {
-        return view('display.front-desk');
-    })->name('display.front-desk');
-});
-
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('display.front-desk');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/front-desk', function () {
+    return view('display.front-desk');
+})->name('display.front-desk');
+
+Route::get('/sena', function () {
+    return view('display.sena');
+})->name('display.sena');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

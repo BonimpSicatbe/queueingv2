@@ -17,7 +17,17 @@ class DatabaseSeeder extends Seeder
         Role::firstOrCreate(['name' => 'admin']);
         Role::firstOrCreate(['name' => 'operator']);
         Role::firstOrCreate(['name' => 'officer']);
+        Role::firstOrCreate(['name' => 'guest']);
 
+        $guest = User::create([
+            'first_name' => 'Guest',
+            'middle_name' => 'User',
+            'last_name' => 'Example',
+            'extension_name' => null,
+            'email' => 'guest@gmail.com',
+            'password' => bcrypt('password'),
+        ]);
+        $guest->assignRole('guest');
         $admin = User::create([
             'first_name' => 'Doming',
             'middle_name' => 'Hilapo',

@@ -28,7 +28,7 @@
     }
 </style>
 
-<div class="w-full py-1 sm:py-2 text-xs sm:text-sm lg:text-base text-gray-600 overflow-hidden">
+<div class="w-full py-1 sm:py-2 text-xs sm:text-sm lg:text-base text-black overflow-hidden">
     <div class="marquee-container space-x-8">
         @for ($i = 0; $i < 6; $i++)
             <div class="marquee-text">
