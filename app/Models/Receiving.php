@@ -11,4 +11,8 @@ class Receiving extends Model
         'queue_number',
     ];
 
+    public function queue()
+    {
+        return $this->hasOne(Queue::class)->where('queue_type', 'receiving');
+    }
 }

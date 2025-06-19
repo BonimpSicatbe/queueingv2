@@ -10,4 +10,9 @@ class InquiryRfa extends Model
         'total_received',
         'queue_number',
     ];
+
+    public function queue()
+    {
+        return $this->hasOne(Queue::class)->where('queue_type', 'inquiry');
+    }
 }

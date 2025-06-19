@@ -18,4 +18,9 @@ class Sena extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function queue()
+    {
+        return $this->hasOne(Queue::class)->where('queue_type', 'senas');
+    }
 }
