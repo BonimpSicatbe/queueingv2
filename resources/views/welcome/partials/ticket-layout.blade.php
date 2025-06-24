@@ -6,7 +6,10 @@
         <title>Ticket Layout</title>
 
         <script type="text/javascript" src="{{ asset('js/qz-tray.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('js/sign-message.js') }}"></script>
+
         <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jsrsasign/11.1.0/jsrsasign-all-min.js"></script>
 
         <style>
             * {
@@ -166,14 +169,28 @@
 
                     console.log("Image Data:", imageData);
 
+                    qz.security.setCertificatePromise(function(resolve, reject) {
+                        //Preferred method - from server
+                        fetch("/keys/digital-certificate.txt", {
+                                cache: 'no-store',
+                                headers: {
+                                    'Content-Type': 'text/plain'
+                                }
+                            })
+                            .then(function(data) {
+                                data.ok ? resolve(data.text()) : reject(data.text());
+                            });
+                    });
+
                     qz.websocket.connect().then(function() {
-                        return qz.printers.find("EPSON L3250 Series");
+                        return qz.printers.getDefault();
                     }).then(function(printer) {
                         const config = qz.configs.create(printer, {
+                            rasterize: true,
                             colorType: 'grayscale',
                             units: 'mm',
                             size: {
-                                width: 80,
+                                width: 56,
                                 height: 70
                             },
                             margins: {
@@ -210,6 +227,7 @@
                         // document.body.appendChild(link);
                         // link.click();
                         // document.body.removeChild(link);
+
                     }).then(function() {
                         window.location.href = "{{ route('welcome.index') }}";
                     }).catch(function(e) {
