@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('queues', function (Blueprint $table) {
-            $table->increments('queue_number'); // Auto-incrementing queue number
+            $table->id(); // queue_number
             $table->string('queue_type'); // 'compliance', 'inquiry', 'receiving', 'senas',
             $table->string('fullname');
             $table->string('company');

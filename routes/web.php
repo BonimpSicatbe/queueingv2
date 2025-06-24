@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
 
 // operators / managers
 Route::prefix('operator')
@@ -31,35 +33,54 @@ Route::get('/sena', function () {
     return view('display.sena');
 })->name('display.sena');
 
+Route::post('/sign', function (Request $request) {
+    $toSign = $request->input('toSign');
+
+    // Load your private key (ensure this is stored securely)
+    $privateKey = file_get_contents(public_path('keys/private-key.pem'));
+
+    openssl_sign($toSign, $signature, $privateKey, OPENSSL_ALGO_SHA512);
+
+    return base64_encode($signature);
+});
+
 // client welcome interface
 Route::prefix('/welcome')
-->as('welcome.')
-->group(function () {
-    // default
-    Route::get('/', function () {
-        return view('welcome.index');
-    })->name('index');
+    ->as('welcome.')
+    ->group(function () {
+        // test template
+        Route::get('/test', function () {
+            return view('welcome.partials.ticket-layout', [
+                'queue_number' => request()->get('queue_number'),
+                'queue_type' => request()->get('queue_type'),
+            ]);
+        })->name('queue.print');
 
-    // receiving
-    Route::get('/receiving', function () {
-        return view('welcome.receiving');
-    })->name('receiving');
+        // default
+        Route::get('/', function () {
+            return view('welcome.index');
+        })->name('index');
 
-    // compliance
-    Route::get('/compliance', function () {
-        return view('welcome.compliance');
-    })->name('compliance');
+        // receiving
+        Route::get('/receiving', function () {
+            return view('welcome.receiving');
+        })->name('receiving');
 
-    // sena
-    Route::get('/sena-inquiries', function () {
-        return view('welcome.sena-inquiries');
-    })->name('sena-inquiries');
+        // compliance
+        Route::get('/compliance', function () {
+            return view('welcome.compliance');
+        })->name('compliance');
 
-    // inquiries
-    Route::get('/inquiries', function () {
-        return view('welcome.inquiries');
-    })->name('inquiries');
-});
+        // sena
+        Route::get('/sena-inquiries', function () {
+            return view('welcome.sena-inquiries');
+        })->name('sena-inquiries');
+
+        // inquiries
+        Route::get('/inquiries', function () {
+            return view('welcome.inquiries');
+        })->name('inquiries');
+    });
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');

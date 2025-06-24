@@ -21,6 +21,7 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         <script src="https://kit.fontawesome.com/a10f8182c0.js" crossorigin="anonymous"></script>
+        @livewireStyles
     </head>
 
     <body>
@@ -67,6 +68,7 @@
             setInterval(updateTime, 1000);
             updateTime();
         </script>
+        @livewireScripts
     </body>
 
 </html>

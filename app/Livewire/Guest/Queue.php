@@ -32,9 +32,10 @@ class Queue extends Component
             'contact_number' => $this->contact_number,
         ]);
 
-        $this->queueNumber = $queue->queue_number;
-
-        return redirect()->route('welcome.index');
+        return redirect()->route('welcome.queue.print', [
+            'queue_number' => $queue->id,
+            'queue_type' => $queue->queue_type,
+        ]);
     }
 
     public function render()
