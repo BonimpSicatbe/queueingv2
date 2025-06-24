@@ -29,8 +29,8 @@
 
         {{-- contact-number --}}
         <fieldset class="fieldset w-full">
-            <legend class="fieldset-legend uppercase w-full">contact-number</legend>
-            <input wire:model='contact_number' type="tel" class="input w-full" placeholder="Enter contact-number" />
+            <legend class="fieldset-legend uppercase w-full">contact number</legend>
+            <input wire:model='contact_number' type="tel" class="input w-full" placeholder="Enter contact number" />
             @error('contact_number')
                 <p class="label w-full text-red-500">{{ $message }}</p>
             @enderror

@@ -8,13 +8,13 @@ use App\Models\Queue as QueueModel;
 
 class Queue extends Component
 {
-    #[Validate('required')]
+    #[Validate('required|string|max:255')]
     public $fullname = '';
-    #[Validate('required')]
+    #[Validate('required|string|max:255')]
     public $company = '';
-    #[Validate('required')]
+    #[Validate('required|string|max:255')]
     public $address = '';
-    #[Validate('required')]
+    #[Validate('required|string|max:20')]
     public $contact_number = '';
 
     public $queueType = '';
@@ -24,8 +24,23 @@ class Queue extends Component
     {
         $this->validate();
 
+        switch ($this->queueType) {
+            case 'inquiries / rfa / other':
+                $queueType = 'inquiries_rfa_other';
+                break;
+            case 'sena inquiries':
+                $queueType = 'sena_inquiries';
+            case 'receiving':
+                $queueType = 'receiving';
+            case 'compliance':
+                $queueType = 'compliance';
+            default:
+                $queueType = 'unknown';
+                break;
+        }
+
         $queue = QueueModel::create([
-            'queue_type' => $this->queueType,
+            'queue_type' => $queueType,
             'fullname' => $this->fullname,
             'company' => $this->company,
             'address' => $this->address,
@@ -34,7 +49,7 @@ class Queue extends Component
 
         return redirect()->route('welcome.queue.print', [
             'queue_number' => $queue->id,
-            'queue_type' => $queue->queue_type,
+            'queue_type' => $this->queueType,
         ]);
     }
 
