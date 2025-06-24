@@ -21,6 +21,4 @@
                 / rfa / others</a>
         </div>
     </div>
-
-    @livewire('guest.welcome-buttons')
 </x-layouts.guest>
