@@ -25,27 +25,23 @@
     </head>
 
     <body>
-        <div class="flex flex-col gap-4 h-screen w-screen p-6 bg-blue-100">
-            <div class="flex flex-col gap-16 h-full w-full max-w-[80%] mx-auto">
+        <div class="flex flex-col gap-4 h-screen w-full p-2 sm:p-6 bg-blue-100">
+            <div class="flex flex-col gap-8 sm:gap-16 h-full w-full max-w-full sm:max-w-[80%] mx-auto">
                 {{-- header --}}
-                <div class="flex flex-row gap-4 w-full items-center justify-center">
-                    <img class="w-auto h-[100px]" src="{{ asset('images/dole-logo.png') }}" alt=""
-                        srcset="">
+                <div class="flex flex-col sm:flex-row gap-4 w-full items-center justify-center">
+                    <img class="w-24 h-24 sm:w-auto sm:h-[100px]" src="{{ asset('images/dole-logo.png') }}" alt="" srcset="">
 
-                    <div class="flex flex-col gap-2 uppercase font-bold text-xl text-center">
-                        <div class="">Department of Labor and Employment</div>
+                    <div class="flex flex-col gap-2 uppercase font-bold text-lg sm:text-xl text-center">
+                        <div>Department of Labor and Employment</div>
                         <div class="font-normal">Cavite Provincial Office</div>
-                        <div class="text-lg uppercase">{{ $date }} - <span
-                                id="current-time">{{ $time }}</span></div>
+                        <div class="text-base sm:text-lg uppercase">{{ $date }} - <span id="current-time">{{ $time }}</span></div>
                     </div>
 
-                    <div class="w-[100px] h-[100px]"></div>
+                    <div class="w-24 h-24 sm:w-[100px] sm:h-[100px] hidden sm:block"></div>
                 </div>
 
                 {{-- body --}}
-                <div class="h-full overflow-auto">
-                    {{ $slot }}
-                </div>
+                <div class="h-full overflow-auto">{{ $slot }}</div>
 
                 {{-- footer --}}
                 <x-layouts.footer></x-layouts.footer>
