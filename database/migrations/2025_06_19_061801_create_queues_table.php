@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('queues', function (Blueprint $table) {
             $table->id(); // queue_number
-            $table->string('queue_type'); // 'compliance', 'inquiry', 'receiving', 'senas',
+            $table->enum('queue_type', ['compliance', 'inquiry, rfa, or others', 'receiving', 'sena inquiry']);
+            $table->enum('status', ['waiting', 'called', 'completed'])->default('waiting');
             $table->string('fullname');
             $table->string('company');
             $table->string('address');

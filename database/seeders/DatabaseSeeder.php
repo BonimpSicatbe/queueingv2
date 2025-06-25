@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Queue;
 use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -55,5 +56,8 @@ class DatabaseSeeder extends Seeder
             'password' => bcrypt('password'),
         ]);
         $officer->assignRole('officer');
+
+        // fake queue numbers
+        Queue::factory()->count(50)->create();
     }
 }

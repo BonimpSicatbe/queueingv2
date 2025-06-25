@@ -5,10 +5,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
 
-// operators / managers
+/**
+ *
+ * operators / managers
+ *
+ **/
 Route::prefix('operator')
     ->middleware(['auth', 'role:operator|admin'])
     ->group(function () {
+        Route::get('/queue-display', function () {
+            return view('operator.queue-display');
+        })->name('operator.queue-display');
+
         Route::get('/front-desk', function () {
             return view('operator.front-desk');
         })->name('operator.front-desk');
@@ -18,7 +26,15 @@ Route::prefix('operator')
         })->name('operator.sena');
     });
 
-// displays
+/*
+ *
+ * public screen displays
+ *
+ * */
+Route::get('/queue-display', function () {
+    return view('display.queue-display');
+})->name('display.queue-display');
+
 Route::get('/', function () {
     return redirect()->route('display.front-desk');
 });
@@ -33,6 +49,11 @@ Route::get('/sena', function () {
     return view('display.sena');
 })->name('display.sena');
 
+/**
+ *
+ * fethching of qz tray private key
+ *
+ **/
 Route::post('/sign', function (Request $request) {
     $toSign = $request->input('toSign');
 
@@ -44,7 +65,7 @@ Route::post('/sign', function (Request $request) {
     return base64_encode($signature);
 });
 
-// client welcome interface
+// welcome interface
 Route::prefix('/welcome')
     ->as('welcome.')
     ->group(function () {
