@@ -17,13 +17,13 @@ Route::prefix('operator')
             return view('operator.queue-display');
         })->name('operator.queue-display');
 
-        Route::get('/front-desk', function () {
-            return view('operator.front-desk');
-        })->name('operator.front-desk');
+        // Route::get('/front-desk', function () {
+        //     return view('operator.front-desk');
+        // })->name('operator.front-desk');
 
-        Route::get('/sena', function () {
-            return view('operator.sena');
-        })->name('operator.sena');
+        // Route::get('/sena', function () {
+        //     return view('operator.sena');
+        // })->name('operator.sena');
     });
 
 /*
@@ -39,15 +39,15 @@ Route::get('/', function () {
     return redirect()->route('display.front-desk');
 });
 
-// front-desk
-Route::get('/front-desk', function () {
-    return view('display.front-desk');
-})->name('display.front-desk');
+// // front-desk
+// Route::get('/front-desk', function () {
+//     return view('display.front-desk');
+// })->name('display.front-desk');
 
-// sena
-Route::get('/sena', function () {
-    return view('display.sena');
-})->name('display.sena');
+// // sena
+// Route::get('/sena', function () {
+//     return view('display.sena');
+// })->name('display.sena');
 
 /**
  *

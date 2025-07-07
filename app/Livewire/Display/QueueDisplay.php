@@ -21,7 +21,10 @@ class QueueDisplay extends Component
                 ->orderBy('created_at', 'asc')
                 ->first();
 
-            $queue->update(['status' => 'called']);
+            if ($queue) {
+                $queue->update(['status' => 'called']);
+            }
+
             $this->queue = $queue;
         }
 

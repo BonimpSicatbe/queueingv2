@@ -28,7 +28,7 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(route('operator.front-desk', absolute: false));
+        return redirect()->intended(route('operator.queue-display', absolute: false));
     }
 
     /**

@@ -24,23 +24,8 @@ class Queue extends Component
     {
         $this->validate();
 
-        switch ($this->queueType) {
-            case 'inquiries / rfa / other':
-                $queueType = 'inquiries_rfa_other';
-                break;
-            case 'sena inquiries':
-                $queueType = 'sena_inquiries';
-            case 'receiving':
-                $queueType = 'receiving';
-            case 'compliance':
-                $queueType = 'compliance';
-            default:
-                $queueType = 'unknown';
-                break;
-        }
-
         $queue = QueueModel::create([
-            'queue_type' => $queueType,
+            'queue_type' => $this->queueType,
             'fullname' => $this->fullname,
             'company' => $this->company,
             'address' => $this->address,

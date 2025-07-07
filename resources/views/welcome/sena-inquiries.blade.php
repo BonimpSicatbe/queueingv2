@@ -5,7 +5,7 @@
         <div class="uppercase font-bold text-2xl text-center">Fill up sena inquiries form</div>
 
         <div class="w-full grow">
-            @livewire('guest.queue', ['queueType' => 'sena inquiries'])
+            @livewire('guest.queue', ['queueType' => 'sena inquiry'])
         </div>
     </div>
 

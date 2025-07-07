@@ -9,57 +9,40 @@ class QueueDisplay extends Component
 {
     public function callNext()
     {
+        // Complete the currently called queue, if any
         $called = Queue::where('status', 'called')
-            ->orderBy('created_at', 'desc')
+            ->latest('created_at')
             ->first();
 
         if ($called) {
             $called->update(['status' => 'completed']);
         }
 
+        // Call the next waiting queue, if any
         $next = Queue::where('status', 'waiting')
-            ->orderBy('created_at', 'asc')
+            ->oldest('created_at')
             ->first();
 
         if ($next) {
             $next->update(['status' => 'called']);
+
+            $this->dispatch('call-next', data: [
+                'queue_type' => $next->queue_type,
+                'queue_number' => $next->id,
+            ]);
         }
-
-        // $queue_type = $next->queue_type === 'inquiry' ? 'inquiry, r-f-a, or others' : $next->queue_type;
-
-        // switch ($queue_type) {
-        //     case 'inquiry':
-        //         $queue_type = 'inquiry, r-f-a, or others';
-        //         break;
-        //     case 'sena':
-        //         $queue_type = 'senah inquiry';
-        //         break;
-
-        //     default:
-        //         $queue_type = $next->queue_type;
-        //         break;
-        // }
-
-        $this->dispatch('call-next', data: [
-            'queue_type' => $next->queue_type,
-            'queue_number' => $next->id,
-        ]);
     }
-
 
     public function render()
     {
         $queue = Queue::where('status', 'called')
-            ->orderBy('created_at', 'desc')
+            ->latest('created_at')
             ->first();
 
         $waitList = Queue::where('status', 'waiting')
-            ->orderBy('created_at', 'asc')
+            ->oldest('created_at')
             ->get();
 
-        return view('livewire.operator.queue-display', [
-            'queue' => $queue,
-            'waitList' => $waitList,
-        ]);
+        return view('livewire.operator.queue-display', compact('queue', 'waitList'));
     }
 }
