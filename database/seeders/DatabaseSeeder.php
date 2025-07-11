@@ -30,11 +30,11 @@ class DatabaseSeeder extends Seeder
         ]);
         $guest->assignRole('guest');
         $admin = User::create([
-            'first_name' => 'Doming',
-            'middle_name' => 'Hilapo',
-            'last_name' => 'Ricalde',
+            'first_name' => 'Admin',
+            'middle_name' => 'User',
+            'last_name' => 'Example',
             'extension_name' => null,
-            'email' => 'domingricalde@gmail.com',
+            'email' => 'admin@gmail.com',
             'password' => bcrypt('password'),
         ]);
         $admin->assignRole('admin');
@@ -57,6 +57,11 @@ class DatabaseSeeder extends Seeder
         ]);
         $officer->assignRole('officer');
 
+        // fake users
+        User::factory()->count(50)->create()->each(function ($user) {
+            $roles = ['admin', 'operator', 'officer', 'guest'];
+            $user->assignRole($roles[array_rand($roles)]);
+        });
         // fake queue numbers
         Queue::factory()->count(50)->create();
     }

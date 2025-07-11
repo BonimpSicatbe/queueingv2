@@ -1,29 +1,40 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Storage;
+
+/**
+ *
+ * admin / super admin
+ *
+ **/
+Route::prefix('admin')
+    ->middleware(['auth', 'role:admin'])
+    ->group(function () {
+        Route::get('/users', [UserController::class, 'index'])->name('admin.users');
+        Route::get('/users/edit/{user}', [UserController::class, 'edit'])->name('admin.user.edit');
+    });
 
 /**
  *
  * operators / managers
  *
  **/
+
 Route::prefix('operator')
-    ->middleware(['auth', 'role:operator|admin'])
+    ->middleware(['auth', 'role:operator|officer|admin'])
     ->group(function () {
         Route::get('/queue-display', function () {
             return view('operator.queue-display');
         })->name('operator.queue-display');
 
-        // Route::get('/front-desk', function () {
-        //     return view('operator.front-desk');
-        // })->name('operator.front-desk');
-
-        // Route::get('/sena', function () {
-        //     return view('operator.sena');
-        // })->name('operator.sena');
+        Route::get('/sena', function () {
+            return view('operator.sena');
+        })->name('operator.sena');
     });
 
 /*
@@ -36,8 +47,18 @@ Route::get('/queue-display', function () {
 })->name('display.queue-display');
 
 Route::get('/', function () {
-    return redirect()->route('display.front-desk');
-});
+    $user = Auth::user();
+
+    if (!$user) {
+        return redirect()->route('display.queue-display');
+    }
+
+    if ($user->role === 'admin' || $user->role === 'operator' || $user->role === 'officer') {
+        return redirect()->route('operator.queue-display');
+    } else {
+        return redirect()->route('operator.queue-display');
+    }
+})->name('homepage');
 
 // // front-desk
 // Route::get('/front-desk', function () {
